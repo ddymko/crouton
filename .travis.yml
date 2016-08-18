@@ -1,30 +1,26 @@
 language: php
-
 php:
-  - 5.6
-  - 7.0
-
-
-# This triggers builds to run on the new TravisCI infrastructure.
-# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+- 5.6
+- 7.0
+notifications:
+  slack:
+    secure: h1tODNOQY3T6JqaFrT0k4N9StJUmw3qiKZK0NibNijdV8ZEhZRywnD/a5eykdoGWEtbjrkLAhbgg2fD8YUqGDgZ5+xYlvIX5HInJQFUxDdrGmL9NbY5CqJChUH9hhg9h0hkpE1zTrjGEMDZ38GwhK69vrzEhNZ2XsYmwTWaPAQzIgMXsC8CUl6+coqgKx2UWKhVQTWQlI6vA3HtW8TEG4xfgYKfH0w4S5zEjKhzuVlUGS1RGFJ5Yxr02xQYUp/8XkLAyQYGNwUD2P5mNP1JT2bwW8/eTvhs7hk+yYGyKhHjgW787I9xcdsou0PLx3p1qifcHYKt2lVlMAXoKYe30HYjSxn6Ha4bs80D9Kuijhi8Uq5s3KAwN0KsUdNTsM2HDAHrb9vQTf0VDgM2SFJhYSTwyZWxWUzgdXG39BIa/dpBP8/duWWLze+xmq6g9Wd3nE+BV/EFEqSFLR5f2ktFYKBLNsHYJ1CUF3lzwDzPbPTf0Ve3PLEXEHE7QZYfRP3unCd+P22qLNIscrzGlykWBlLui/TdbDEHJolQGHL8wo5q7d/K9EDiiyTzBpKxcKoKzI97PIzmivdUym0AWzGx/OCNnHxVtgJrwK2qUQUqdSJZitM1OfoIi8GX6NgBOhkbTguefZpGk5z8CAscXGLF9STTTQzqMqHISIPXltTY8rL4=
+    on_success: always
+    on_failure: always
 sudo: false
-
-## Cache composer
 cache:
   directories:
-    - $HOME/.composer/cache
-
+  - $HOME/.composer/cachetravis encrypt "kaktus-team:k4VuLtjB4nGh8vasd8CyykKA" --add
+    notifications.slack
 matrix:
   include:
-    - php: 5.6
-      env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
-
+  - php: 5.6
+    env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
 before_script:
-  - travis_retry composer self-update
-  - composer install --no-interaction --prefer-source --dev
-
+- travis_retry composer self-update
+- composer install --no-interaction --prefer-source --dev
 script:
-  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-
+- vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 after_script:
-  - if [[ $TRAVIS_PHP_VERSION != 'hhvm' && $TRAVIS_PHP_VERSION != '7.0' ]]; then php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover; fi
+- if [[ $TRAVIS_PHP_VERSION != 'hhvm' && $TRAVIS_PHP_VERSION != '7.0' ]]; then php
+  vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover; fi
