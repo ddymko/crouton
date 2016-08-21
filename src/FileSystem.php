@@ -8,7 +8,7 @@ class FileSystem
     private $handle;
     public function __construct()
     {
-        $this->handle = fopen('/Users/Dymko/Desktop/test.txt','a');
+        $this->handle = fopen('/tmp/test.txt','a');
     }
 
     public function __destruct()

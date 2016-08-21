@@ -25,6 +25,14 @@ class Crouton
      */
     public function write($days, $start_time, $end_time, $script_path, $env = null, $arguments = null)
     {
+
+        if(!file_exists($script_path))
+        {
+            $fh = fopen($script_path, 'w') or die("Can't create file");
+            chmod($script_path, 0777);
+            fwrite($fh, "#Crouton Cron Entry\n");
+        }
+
         $cron = $this->cron_creator($days, $start_time, $end_time, $script_path);
         $write = new FileSystem();
         $write->write($cron . "\n");

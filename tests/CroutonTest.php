@@ -16,11 +16,11 @@ class CroutonTest extends \PHPUnit_Framework_TestCase
     {
 
         $bab = new Crouton();
-        $bab->write('1', "12:34", "18:21", "/Users/Dymko/Desktop/test.txt");
-        $cron = $bab->cron_creator('1', "12:34", "18:21", "/Users/Dymko/Desktop/test.txt");
+        $bab->write('1', "12:34", "18:21", "/tmp/test.txt");
+        $cron = $bab->cron_creator('1', "12:34", "18:21", "/tmp/test.txt");
 
-        $handle = fopen('/Users/Dymko/Desktop/test.txt','r');
-        $data = fread($handle,filesize('/Users/Dymko/Desktop/test.txt'));
+        $handle = fopen('/tmp/test.txt','r');
+        $data = fread($handle,filesize('/tmp/test.txt'));
 
         $cron = preg_replace('/\*/', '\*', $cron);
         $cron = preg_replace('/\//', '\/', $cron);
@@ -33,20 +33,20 @@ class CroutonTest extends \PHPUnit_Framework_TestCase
     public function testCronCreator()
     {
         $crouton = new Crouton();
-        $cron_test = $crouton->cron_creator('1,4,5,7', "02:34", "12:12", "/Users/Dymko/Desktop/test.txt");
+        $cron_test = $crouton->cron_creator('1,4,5,7', "02:34", "12:12", "/tmp/test.txt");
         $cron_test = preg_replace('/\*/', '\*', $cron_test);
         $cron_test = preg_replace('/\//', '\/', $cron_test);
         $cron_test = "/$cron_test/";
 
-        $this->assertRegExp($cron_test, '5 02-12 * * 1,4,5,7 /Users/Dymko/Desktop/test.txt');
+        $this->assertRegExp($cron_test, '5 02-12 * * 1,4,5,7 /tmp/test.txt');
 
 
-        $cron_test = $crouton->cron_creator('1,4,5,7', "02:34", "12:12", "/Users/Dymko/Desktop/test.txt", "php");
+        $cron_test = $crouton->cron_creator('1,4,5,7', "02:34", "12:12", "/tmp/test.txt", "php");
         $cron_test = preg_replace('/\*/', '\*', $cron_test);
         $cron_test = preg_replace('/\//', '\/', $cron_test);
         $cron_test = "/$cron_test/";
 
-        $this->assertRegExp($cron_test, '5 02-12 * * 1,4,5,7 php /Users/Dymko/Desktop/test.txt');
+        $this->assertRegExp($cron_test, '5 02-12 * * 1,4,5,7 php /tmp/test.txt');
 
     }
 }
