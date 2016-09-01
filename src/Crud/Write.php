@@ -2,16 +2,35 @@
 
 namespace Kaktus\Crouton\Crud;
 
-
 class Write
 {
+
     private $handle;
 
+
+    /**
+     * Write constructor.
+     * @param $cron_path
+     */
     public function __construct($cron_path)
     {
+        if(empty($cron_path))
+        {
+            $cron_path = '/etc/cron.d/crouton';
+        }
+        elseif(!file_exists($cron_path))
+        {
+            return false;
+        }
+
         $this->handle = fopen($cron_path,'a');
     }
 
+
+
+    /**
+     * destructor function
+     */
     public function __destruct()
     {
         fclose($this->handle);
