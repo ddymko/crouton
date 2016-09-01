@@ -1,6 +1,6 @@
 <?php
 
-namespace kaktus\Crouton\crud;
+namespace Kaktus\Crouton\Crud;
 
 
 class Write

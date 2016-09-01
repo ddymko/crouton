@@ -6,10 +6,10 @@
  * Time: 8:09 PM
  */
 
-namespace kaktus\Tests;
+namespace Kaktus\Tests;
 
-use kaktus\Crouton\Crouton;
-use kaktus\Crouton\crud\Write;
+use Kaktus\Crouton\Crouton;
+use Kaktus\Crouton\Crud\Write;
 
 class CroutonTest extends \PHPUnit_Framework_TestCase
 {

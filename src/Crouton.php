@@ -1,7 +1,7 @@
 <?php
 
-namespace kaktus\Crouton;
-use kaktus\Crouton\crud\write;
+namespace Kaktus\Crouton;
+use Kaktus\Crouton\Crud\Write;
 
 /**
  * Class Crouton
@@ -27,7 +27,6 @@ class Crouton
      */
     public function write($days, $start_time, $end_time, $script_path, $cron_path = null, $env = null, $arguments = null)
     {
-
         $write = new Write($cron_path);
         $cron = $write->cron_creator($days, $start_time, $end_time, $script_path);
         $write->write($cron . "\n");

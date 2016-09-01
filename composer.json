@@ -24,12 +24,12 @@
   },
   "autoload": {
     "psr-4": {
-      "kaktus\\Crouton\\": "src"
+      "Kaktus\\Crouton\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "kaktus\\Tests\\": "tests"
+      "Kaktus\\Tests\\": "tests"
     }
   },
   "scripts": {
