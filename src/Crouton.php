@@ -14,9 +14,13 @@ class Crouton
         // this is the default cron for crouton
         if(!file_exists('/etc/cron.d/crouton'))
         {
-            $fh = fopen('/etc/cron.d/crouton', 'w') or die("Can't create file");
-            chmod('/etc/cron.d/crouton', 0777);
-            fwrite($fh, "#Crouton Cron Entry\n");
+            try {
+                $fh = fopen('/etc/cron.d/crouton', 'w');
+                chmod('/etc/cron.d/crouton', 0777);
+                fwrite($fh, "#Crouton Cron Entry\n");
+            } catch (\Exception $e) {
+                error_log($e);
+            }
         }
 
     }
