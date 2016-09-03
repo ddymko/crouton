@@ -30,7 +30,7 @@ class CroutonTest extends \PHPUnit_Framework_TestCase
     {
 
         $crouton = new Crouton();
-        $crouton->write('1', "12:34", "18:21", "/tmp/crouton", '/tmp/crouton');
+        $crouton->write('TestWrite', '1', "12:34", "18:21", "/tmp/crouton", '/tmp/crouton');
 
         $write = new Write('/tmp/crouton');
         $cron = $write->cron_creator('1', "12:34", "18:21", "/tmp/crouton");
@@ -44,6 +44,28 @@ class CroutonTest extends \PHPUnit_Framework_TestCase
 
         $this->assertRegExp($cron, $data);
 
+    }
+
+    public function testDelete()
+    {
+        $crouton = new Crouton();
+        $crouton->write('TestDeleteCrouton', '1', "12:34", "18:21", "/tmp/crouton", '/tmp/crouton');
+
+        $crouton->delete('/tmp/crouton', 'TestDeleteCrouton');
+
+        $data = file('/tmp/crouton');
+
+        foreach($data as $line) {
+            if(trim("#TestDeleteCrouton") == $line)
+            {
+                $this->assertFalse(true);
+            }
+            else
+            {
+                $this->assertTrue(true);
+            }
+
+        }
     }
 
     public function testCronCreator()

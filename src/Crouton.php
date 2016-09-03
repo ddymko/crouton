@@ -2,6 +2,7 @@
 
 namespace Kaktus\Crouton;
 use Kaktus\Crouton\Crud\Write;
+use Kaktus\Crouton\Crud\Delete;
 
 /**
  * Class Crouton
@@ -28,6 +29,7 @@ class Crouton
     /**
      *
      * @description Takes all data for cron and then sends it to be added in
+     * @param $name
      * @param $days
      * @param $start_time
      * @param $end_time
@@ -36,11 +38,22 @@ class Crouton
      * @param null $env
      * @param null $arguments
      */
-    public function write($days, $start_time, $end_time, $script_path, $cron_path = null, $env = null, $arguments = null)
+    public function write($name, $days, $start_time, $end_time, $script_path, $cron_path = null, $env = null, $arguments = null)
     {
         $write = new Write($cron_path);
         $cron = $write->cron_creator($days, $start_time, $end_time, $script_path);
-        $write->write($cron . "\n");
+        $write->write("#$name\n". $cron . "\n");
+    }
+
+    /**
+     * @description takes in the name you gave for your cron entry and deletes it
+     * @param $cron_path
+     * @param $entry_name
+     */
+    public function delete($cron_path, $entry_name)
+    {
+        $delete = new Delete($cron_path);
+        $delete->delete($entry_name);
     }
 
 }
