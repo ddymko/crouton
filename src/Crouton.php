@@ -56,4 +56,9 @@ class Crouton
         $delete->delete($entry_name);
     }
 
+    public function update()
+    {
+
+    }
+
 }
