@@ -31,7 +31,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     public function testCheckIfExists()
     {
         $crouton = new Crouton();
-        $crouton->write('UpdateForUnit', '1,2,3,4', "12:34", "18:21", "/home/ddymko/desktop/test.php", '/tmp/crouton');
+        $crouton->write('UpdateForUnit', '1,2,3,4', "12:34", "18:21", "/home/ddymko/desktop/test.php", '/tmp/crouton', 'php');
 
         $update = new Update('/tmp/crouton');
         $key = $update->checkIfExists('UpdateForUnit');
@@ -54,4 +54,44 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testUpdate()
+    {
+        $update = new Update('/tmp/crouton');
+        $updated = $update->update('UpdateForUnit', '2,4,6', '14', '21', '/home/ddymko/test.php', 'ruby');
+
+        //todo finish this
+    }
+
+    public function testRegexChecker()
+    {
+        $regex = [
+          'days' => '2,4,6',
+          'start_time' => '14',
+          'end_time' => '21',
+          'script_path' => '/home/ddymko/test.php',
+          'env' => 'ruby'
+        ];
+
+        $update = new Update('/tmp/crouton');
+        $updated = $update->regexChecker($regex,'5 12-18 * * 1,2,3,4 php /home/ddymko/desktop/test.php');
+
+        $this->assertEquals("2,4,6", $updated[4]);
+        $this->assertEquals("14-21", $updated[1]);
+        $this->assertEquals("ruby",  $updated[5]);
+        $this->assertEquals("/home/ddymko/test.php",  $updated[6]);
+
+    }
+
+    public function testCronCreator()
+    {
+        $cron = ['5','14-21', '*', '*', '2,4,6', 'ruby', '/home/ddymko/test.php'];
+
+        $update = new Update('/tmp/crouton');
+        $updated = $update->cronCreate($cron);
+
+        $this->assertEquals('5 14-21 * * 2,4,6 ruby /home/ddymko/test.php',$updated);
+
+    }
+
+    //todo testupdatecronwrite
 }

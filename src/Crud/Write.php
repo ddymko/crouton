@@ -76,9 +76,15 @@ class Write
             $cron .= $env . " ";
         }
 
+
         if(!empty($script_path))
         {
             $cron .= $script_path;
+        }
+
+        if(!empty($arguments))
+        {
+            $cron .= " " . $arguments;
         }
 
         return $cron;

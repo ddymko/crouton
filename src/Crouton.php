@@ -41,7 +41,7 @@ class Crouton
     public function write($name, $days, $start_time, $end_time, $script_path, $cron_path = null, $env = null, $arguments = null)
     {
         $write = new Write($cron_path);
-        $cron = $write->cron_creator($days, $start_time, $end_time, $script_path);
+        $cron = $write->cron_creator($days, $start_time, $end_time, $script_path, $env, $arguments);
         $write->write("#$name\n". $cron . "\n");
     }
 
@@ -58,7 +58,7 @@ class Crouton
 
     public function update()
     {
-
+        //todo finish me
     }
 
 }
