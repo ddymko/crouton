@@ -57,6 +57,18 @@ class Crouton
         $delete->delete($entry_name);
     }
 
+    /**
+     *
+     * @description takes in name of a cron entry and updates accordingly
+     * @param $cron_path
+     * @param $name
+     * @param null $days
+     * @param null $start_time
+     * @param null $end_time
+     * @param null $script_path
+     * @param null $env
+     * @param null $arguments
+     */
     public function update($cron_path, $name, $days = null, $start_time = null, $end_time = null, $script_path = null, $env = null, $arguments = null)
     {
         $update = new Update($cron_path);
