@@ -57,9 +57,10 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     public function testUpdate()
     {
         $update = new Update('/tmp/crouton');
-        $updated = $update->update('UpdateForUnit', '2,4,6', '14', '21', '/home/ddymko/test.php', 'ruby');
+        $update->update('UpdateForUnit', '2,4,6', '14', '21', '/home/ddymko/test.php', 'ruby');
 
-        //todo finish this
+        $cron_line = file('/tmp/crouton');
+        $this->assertTrue(in_array("5 14-21 * * 2,4,6 ruby /home/ddymko/test.php\n",$cron_line, false));
     }
 
     public function testRegexChecker()
@@ -93,5 +94,12 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    //todo testupdatecronwrite
+    public function testUpdateWrite()
+    {
+        $update = new Update('/tmp/crouton');
+        $update->updateWrite('5 14-21 * * 2,4,6 sh /home/shell', 2);
+        $cron_line = file('/tmp/crouton');
+        $this->assertTrue(in_array("5 14-21 * * 2,4,6 sh /home/shell\n",$cron_line, false));
+
+    }
 }

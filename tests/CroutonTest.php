@@ -87,4 +87,13 @@ class CroutonTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp($cron_test, '5 02-12 * * 1,4,5,7 php /tmp/crouton');
 
     }
+
+    public function testUpdate()
+    {
+        $crouton = new Crouton();
+        $update = $crouton->update('/tmp/crouton', 'TestWrite', '1,2,3,4,5,6','16','21');
+        $cron_line = file('/tmp/crouton');
+        $this->assertTrue(in_array("5 16-21 * * 1,2,3,4,5,6 /tmp/crouton\n",$cron_line, false));
+    }
+
 }

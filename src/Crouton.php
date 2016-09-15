@@ -3,6 +3,7 @@
 namespace Kaktus\Crouton;
 use Kaktus\Crouton\Crud\Write;
 use Kaktus\Crouton\Crud\Delete;
+use Kaktus\Crouton\Crud\Update;
 
 /**
  * Class Crouton
@@ -56,9 +57,10 @@ class Crouton
         $delete->delete($entry_name);
     }
 
-    public function update()
+    public function update($cron_path, $name, $days = null, $start_time = null, $end_time = null, $script_path = null, $env = null, $arguments = null)
     {
-        //todo finish me
+        $update = new Update($cron_path);
+        $update->update($name, $days, $start_time, $end_time, $script_path, $env, $arguments);
     }
 
 }

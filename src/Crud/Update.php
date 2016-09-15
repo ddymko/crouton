@@ -7,7 +7,6 @@
  */
 
 namespace Kaktus\Crouton\Crud;
-use Kaktus\Crouton\Crud\Write;
 
 class Update
 {
@@ -28,6 +27,18 @@ class Update
         $this->handle = fopen($this->path,'a');
     }
 
+    /**
+     *
+     * @description Driver function to update a single cron entry
+     *
+     * @param $name
+     * @param null $days
+     * @param null $start_time
+     * @param null $end_time
+     * @param null $script_path
+     * @param null $env
+     * @param null $arguments
+     */
     public function update($name, $days = null, $start_time = null, $end_time = null, $script_path = null, $env = null, $arguments = null)
     {
         $key = $this->checkIfExists($name);
@@ -47,7 +58,6 @@ class Update
         $update_cron = $this->regexChecker($regex, $cron_line[$key_line]);
 
         $this->updateWrite($this->cronCreate($update_cron), $key_line);
-        //todo return type of some type?
     }
 
     /**
@@ -113,6 +123,13 @@ class Update
         return false;
     }
 
+    /**
+     *
+     * @description Updates cron with new entries
+     *
+     * @param $update_cron
+     * @param $key_line
+     */
     public function updateWrite($update_cron, $key_line)
     {
 
@@ -125,7 +142,6 @@ class Update
             fwrite($f, $line."\n");
         }
         flock($f, LOCK_UN);
-        //todo return type?
     }
 
     /**
