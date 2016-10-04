@@ -22,7 +22,7 @@ class Write
         {
             return false;
         }
-
+        $this->path = $cron_path;
         $this->handle = fopen($cron_path,'a');
     }
 
