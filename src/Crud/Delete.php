@@ -22,7 +22,6 @@ class Delete
             return false;
         }
         $this->path = $cron_path;
-
         $this->handle = fopen($this->path,'a');
     }
 
