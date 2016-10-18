@@ -2,11 +2,8 @@
 
 namespace Kaktus\Crouton\Crud;
 
-class Write
+class Write extends Crud
 {
-
-    private $handle;
-
 
     /**
      * Write constructor.
@@ -14,18 +11,8 @@ class Write
      */
     public function __construct($cron_path)
     {
-        if(empty($cron_path))
-        {
-            $cron_path = '/etc/cron.d/crouton';
-        }
-        elseif(!file_exists($cron_path))
-        {
-            return false;
-        }
-        $this->path = $cron_path;
-        $this->handle = fopen($this->path,'a');
+        parent::__construct($cron_path);
     }
-
 
 
     /**
