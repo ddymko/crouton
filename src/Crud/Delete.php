@@ -3,9 +3,8 @@
 namespace Kaktus\Crouton\Crud;
 
 
-class Delete
+class Delete extends Crud
 {
-    private $path;
 
     /**
      * Delete constructor.
@@ -13,17 +12,7 @@ class Delete
      */
     public function __construct($cron_path)
     {
-        if(empty($cron_path))
-        {
-            $this->path = '/etc/cron.d/crouton';
-        }
-        elseif(!file_exists($cron_path))
-        {
-            return false;
-        }
-        $this->path = $cron_path;
-
-        $this->handle = fopen($this->path,'a');
+        parent::__construct($cron_path);
     }
 
     /**

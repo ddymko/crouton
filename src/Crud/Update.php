@@ -8,24 +8,14 @@
 
 namespace Kaktus\Crouton\Crud;
 
-class Update
+class Update extends Crud
 {
-    private $cron_path;
 
     public function __construct($cron_path)
     {
-        if(empty($cron_path))
-        {
-            $this->path = '/etc/cron.d/crouton';
-        }
-        elseif(!file_exists($cron_path))
-        {
-            return false;
-        }
-        $this->path = $cron_path;
-
-        $this->handle = fopen($this->path,'a');
+        parent::__construct($cron_path);
     }
+
 
     /**
      *
@@ -54,7 +44,6 @@ class Update
 
         $cron_line = file($this->path);
         $key_line = $key+1;
-
         $update_cron = $this->regexChecker($regex, $cron_line[$key_line]);
 
         $this->updateWrite($this->cronCreate($update_cron), $key_line);
