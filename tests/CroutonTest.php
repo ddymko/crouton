@@ -29,14 +29,14 @@ class CroutonTest extends \PHPUnit_Framework_TestCase
     public function testWrite()
     {
 
-        $crouton = new Crouton();
-        $crouton->write('TestWrite', '1', "12:34", "18:21", "/tmp/crouton", '/tmp/crouton');
+        $crouton = new Crouton('/tmp/unit');
+	      $crouton->write('Test', '5', '5-12', '*', '*', '5,6,7', 'ruby', '/home/ruby/test', null);
 
-        $write = new Write('/tmp/crouton');
-        $cron = $write->cron_creator('1', "12:34", "18:21", "/tmp/crouton");
+        $write = new Write('/tmp/unit');
+        $cron = $write->cron_creator('5', '5-12', '*', '*', '5,6,7', 'ruby', '/home/ruby/test', null);
 
-        $handle = fopen('/tmp/crouton','r');
-        $data = fread($handle,filesize('/tmp/crouton'));
+        $handle = fopen('/tmp/unit','r');
+        $data = fread($handle,filesize('/tmp/unit'));
 
         $cron = preg_replace('/\*/', '\*', $cron);
         $cron = preg_replace('/\//', '\/', $cron);

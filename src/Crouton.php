@@ -11,14 +11,20 @@ use Kaktus\Crouton\Crud\Update;
  */
 class Crouton
 {
-    public function __construct()
+
+		private $cron_path;
+
+    public function __construct($path = '/etc/cron.d/crouton')
     {
+
+    	$this->setCronPath($path);
+
         // this is the default cron for crouton
-        if(!file_exists('/etc/cron.d/crouton'))
+        if(!file_exists($this->getCronPath()))
         {
             try {
-                $fh = fopen('/etc/cron.d/crouton', 'w');
-                chmod('/etc/cron.d/crouton', 0777);
+                $fh = fopen($this->getCronPath(), 'w');
+                chmod($this->getCronPath(), 0777);
                 fwrite($fh, "#Crouton Cron Entry\n");
             } catch (\Exception $e) {
                 error_log($e);
@@ -27,24 +33,42 @@ class Crouton
 
     }
 
-    /**
-     *
-     * @description Takes all data for cron and then sends it to be added in
-     * @param $name
-     * @param $days
-     * @param $start_time
-     * @param $end_time
-     * @param $script_path
-     * @param $cron_path
-     * @param null $env
-     * @param null $arguments
-     */
-    public function write($name, $days, $start_time, $end_time, $script_path, $cron_path = null, $env = null, $arguments = null)
-    {
-        $write = new Write($cron_path);
-        $cron = $write->cron_creator($days, $start_time, $end_time, $script_path, $env, $arguments);
-        $write->write("#$name\n". $cron . "\n");
-    }
+		/**
+		 * @return mixed
+		 */
+		public function getCronPath()
+		{
+			return $this->cron_path;
+		}
+
+	/**
+		 * @param mixed $cron_path
+		 */
+		public function setCronPath($cron_path)
+		{
+			$this->cron_path = $cron_path;
+		}
+
+
+	/**
+	 * @param $name
+	 * @param $minute
+	 * @param $hours
+	 * @param $days_of_month
+	 * @param $month
+	 * @param $days
+	 * @param $env
+	 * @param $script_path
+	 * @param $arguments
+	 */
+
+	public function write ($name, $minute, $hours, $days_of_month, $month, $days, $env, $script_path, $arguments)
+	{
+
+		$write = new Write($this->getCronPath());
+		$cron = $write->cron_creator($minute, $hours, $days_of_month, $month, $days, $env, $script_path, $arguments);
+		$write->write("#$name\n". $cron . "\n");
+	}
 
     /**
      * @description takes in the name you gave for your cron entry and deletes it
