@@ -16,37 +16,44 @@ class Delete extends Crud
     }
 
     /**
-     * @description Deletes an entry from the cron - This needs to be rewritten since it isnt the best
-     * @param $deletion
+     * @description Deletes an entry from the cron
+     * @param $entry_name
      */
-    public function delete($deletion)
+    public function delete($entry_name)
     {
-        $data = file($this->path);
-        $out = array();
 
-        $deletion = "#$deletion";
-
-        foreach($data as $line) {
-                $out[] = $line;
+        try {
+            $out = file($this->getPath(), FILE_IGNORE_NEW_LINES);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            exit;
         }
 
-        for($i = 0; $i < count($out); $i++)
-        {
-            if(trim($out[$i]) == $deletion)
-            {
-                $i++;
-                continue;
+
+        $new = array();
+        $deletion = "#$entry_name";
+
+        try {
+            for ($i = 0; $i < count($out); $i++) {
+                if (trim($out[$i]) == $deletion) {
+                    $i++;
+                    continue;
+                }
+                $new[] = $out[$i] . PHP_EOL;
             }
-            $new[] = $out[$i];
-        }
 
-        $f = fopen($this->path, 'w+');
-        flock($f, LOCK_EX);
-        foreach($new as $line) {
-            fwrite($f, $line);
+            $f = fopen($this->getPath(), 'w+');
+            flock($f, LOCK_EX);
+            foreach ($new as $line) {
+                fwrite($f, $line);
+            }
+            flock($f, LOCK_UN);
+            fclose($f);
+
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            exit;
         }
-        flock($f, LOCK_UN);
-        fclose($f);
 
     }
 
