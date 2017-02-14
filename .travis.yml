@@ -2,6 +2,7 @@ language: php
 php:
 - 5.6
 - 7.0
+- 7.1
 notifications:
   slack:
     secure: wlDWyNC1gM6h83w5X5HbUSiMKpepKlPLOdDKfVEUpUS0LBtQGehOiQutA9IvtSRgO/ciNtPRQRX5l/PVxfP7Pi5NiPsaL8l4pIT+YEr3Q9wU6gf/TgcpBbpVQlK1mXSxv5N7Q7cQjAh0mZstziSww3QvAcqyahBSASi0dfUtLuBga0Qe6DRGEVZk9SYstxQfJD8LCoYUhjMQ/KCTWCWFvgjFSxNRL96BW+eGgHs8wB5j9Hnv6ZqpVZU6vCRbizDyRfVVRFQtl4Mhwn440aCKHiZdYJvZhuGl+N1ZwQyUWJuiWxEWcGLeG5TIThG3lcIhOVVyq+WQOhsMRCpwK6FutqW5KVIuEoS8xIeEndZDwe+pwPN1H1PaaMeNn37UJUMa14lTyJ/th1QFrZIUVoC7ajF36/KGSfcP9k3HRqRSHeqMkM40tpGPMTepQFSBdKJAZ0yrNsBlLjwzbTaqXgahkNaW1DPa44tqU8JJYsH0DRTbh9hprG4/XiCYHV0jOGsbC3fkzFnB9tLl+zXmG9lDfQL6pLmIq6z49nMQSemLy4n/7pN1Kecsvn1/rdnToKUGP1YuJfxNhHyT5lld+TQzOhFiY+hmUjLX6fupVuCdzWcybjRjDCCKO0HK1LFh7LnBF2pgiw63/BK9nxqimUhzx4F0Z3d5tJ1xGZ3/v6Zuhzo=
@@ -10,10 +11,6 @@ cache:
   directories:
   - $HOME/.composer/cachetravis encrypt "kaktus-team:k4VuLtjB4nGh8vasd8CyykKA" --add
     notifications.slack
-matrix:
-  include:
-  - php: 5.6
-    env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
 before_script:
 - travis_retry composer self-update
 - composer install --no-interaction --prefer-source --dev

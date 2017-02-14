@@ -9,7 +9,6 @@
 namespace Kaktus\Tests;
 
 use Kaktus\Crouton\Crouton;
-use Kaktus\Crouton\Crud\Delete;
 
 class Test extends \PHPUnit_Framework_TestCase
 {
