@@ -29,10 +29,11 @@ class Delete extends Crud
      */
     public function delete($entry_name)
     {
-
+        $this->getLogger()->info("deleting entry $entry_name");
         try {
             $out = file($this->getPath(), FILE_IGNORE_NEW_LINES);
         } catch (\Exception $e) {
+            $this->getLogger()->critical("Deletion error: $e");
             var_dump($e->getMessage());
             exit;
         }
@@ -59,6 +60,7 @@ class Delete extends Crud
             fclose($f);
 
         } catch (\Exception $e) {
+            $this->getLogger()->critical("Deletion error: $e");
             exit;
         }
 

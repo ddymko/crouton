@@ -32,7 +32,15 @@ class Write extends Crud
      */
     public function write($cron)
     {
-        fwrite($this->getHandle(), $cron);
+        $this->getLogger()->info("writing $cron");
+        try{
+            fwrite($this->getHandle(), $cron);
+        } catch (\Exception $e) {
+            $this->getLogger()->critical("failed to write $cron");
+            $this->getLogger()->critical("error message: $e");
+            exit;
+        }
+
     }
 
     /**

@@ -2,11 +2,16 @@
 
 namespace Kaktus\Crouton\Crud;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 class Crud
 {
 
     private $path;
     private $handle;
+    private $logger;
+
 
     /**
      * Crud constructor.
@@ -17,9 +22,15 @@ class Crud
      */
     public function __construct($cron_path)
     {
+
+        $this->setLogger(new Logger('crouton'));
+        $this->getLogger()->pushHandler(new StreamHandler(__DIR__.'/../../log/my_app.log', Logger::DEBUG));
+
+
         $this->setPath($cron_path);
 
         if (!file_exists($this->getPath())) {
+            $this->getLogger()->critical("$cron_path does not exist");
             throw new \Exception($cron_path . " does not exist");
         }
 
@@ -67,5 +78,21 @@ class Crud
     public function setHandle($handle)
     {
         $this->handle = $handle;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param mixed $logger
+     */
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
     }
 }
