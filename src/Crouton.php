@@ -61,10 +61,8 @@ class Crouton
      * @param $script_path
      * @param $arguments
      */
-
     public function write($name, $minute, $hours, $days_of_month, $month, $days, $env, $script_path, $arguments)
     {
-
         $write = new Write($this->getCronPath());
         $cron = $write->cron_creator($minute, $hours, $days_of_month, $month, $days, $env, $script_path, $arguments);
         $write->write("#$name\n" . $cron . "\n");
@@ -81,21 +79,27 @@ class Crouton
     }
 
     /**
-     *
-     * @description takes in name of a cron entry and updates accordingly
-     * @param $cron_path
      * @param $name
-     * @param null $days
-     * @param null $start_time
-     * @param null $end_time
-     * @param null $script_path
-     * @param null $env
-     * @param null $arguments
+     * @param $minute
+     * @param $hours
+     * @param $days_of_month
+     * @param $month
+     * @param $days
+     * @param $env
+     * @param $script_path
+     * @param $arguments
      */
-    public function update($cron_path, $name, $days = null, $start_time = null, $end_time = null, $script_path = null, $env = null, $arguments = null)
+    public function update($name, $minute, $hours, $days_of_month, $month, $days, $env, $script_path, $arguments)
     {
-        $update = new Update($cron_path);
-        $update->update($name, $days, $start_time, $end_time, $script_path, $env, $arguments);
+        //todo this is a temp solution due to poor design with the update
+        //todo so for now we just delete and update
+        $delete = new Delete($this->getCronPath());
+        $delete->delete($name);
+
+        $write = new Write($this->getCronPath());
+        $cron = $write->cron_creator($minute, $hours, $days_of_month, $month, $days, $env, $script_path, $arguments);
+        $write->write("#$name\n" . $cron . "\n");
+
     }
 
 }

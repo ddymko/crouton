@@ -16,6 +16,14 @@ class Delete extends Crud
     }
 
     /**
+     * Delete destructor
+     */
+    public function __destruct()
+    {
+        parent::__destruct();
+    }
+
+    /**
      * @description Deletes an entry from the cron
      * @param $entry_name
      */
@@ -51,7 +59,6 @@ class Delete extends Crud
             fclose($f);
 
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
             exit;
         }
 

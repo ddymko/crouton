@@ -20,9 +20,8 @@ class Write extends Crud
      */
     public function __destruct()
     {
-        fclose($this->getHandle());
+        parent::__destruct();
     }
-
 
 
     /**
@@ -33,45 +32,50 @@ class Write extends Crud
      */
     public function write($cron)
     {
-		      fwrite($this->getHandle(), $cron);
+        fwrite($this->getHandle(), $cron);
     }
 
-	/**
-	 *
-	 * @description takes in all data needed for a proper cron entry
-	 * and then creates an entry which will be used for the cron
-	 *
-	 * @param string $minute
-	 * @param string $hours
-	 * @param string $days_of_month
-	 * @param string $month
-	 * @param string $days
-	 * @param null   $env
-	 * @param null   $script_path
-	 * @param null   $arguments
-	 *
-	 * @return string
-	 */
-    public function cron_creator($minute = '*', $hours = '*', $days_of_month = '*', $month = '*', $days  = '*', $env = null, $script_path = null, $arguments = null)
-    {
+    /**
+     *
+     * @description takes in all data needed for a proper cron entry
+     * and then creates an entry which will be used for the cron
+     *
+     * @param string $minute
+     * @param string $hours
+     * @param string $days_of_month
+     * @param string $month
+     * @param string $days
+     * @param null $env
+     * @param null $script_path
+     * @param null $arguments
+     *
+     * @return string
+     */
+    public function cron_creator(
+        $minute = '*',
+        $hours = '*',
+        $days_of_month = '*',
+        $month = '*',
+        $days = '*',
+        $env = null,
+        $script_path = null,
+        $arguments = null
+    ) {
 
 
         $cron = "$minute $hours $days_of_month $month $days ";
 
 
-        if(!empty($env))
-        {
+        if (!empty($env)) {
             $cron .= $env . " ";
         }
 
 
-        if(!empty($script_path))
-        {
+        if (!empty($script_path)) {
             $cron .= $script_path;
         }
 
-        if(!empty($arguments))
-        {
+        if (!empty($arguments)) {
             $cron .= " " . $arguments;
         }
 
