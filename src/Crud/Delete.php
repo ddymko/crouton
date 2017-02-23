@@ -16,37 +16,53 @@ class Delete extends Crud
     }
 
     /**
-     * @description Deletes an entry from the cron - This needs to be rewritten since it isnt the best
-     * @param $deletion
+     * Delete destructor
      */
-    public function delete($deletion)
+    public function __destruct()
     {
-        $data = file($this->path);
-        $out = array();
+        parent::__destruct();
+    }
 
-        $deletion = "#$deletion";
-
-        foreach($data as $line) {
-                $out[] = $line;
+    /**
+     * @description Deletes an entry from the cron
+     * @param $entry_name
+     */
+    public function delete($entry_name)
+    {
+        $this->getLogger()->info("deleting entry $entry_name");
+        try {
+            $out = file($this->getPath(), FILE_IGNORE_NEW_LINES);
+        } catch (\Exception $e) {
+            $this->getLogger()->critical("Deletion error: $e");
+            var_dump($e->getMessage());
+            exit;
         }
 
-        for($i = 0; $i < count($out); $i++)
-        {
-            if(trim($out[$i]) == $deletion)
-            {
-                $i++;
-                continue;
+
+        $new = array();
+        $deletion = "#$entry_name";
+
+        try {
+            for ($i = 0; $i < count($out); $i++) {
+                if (trim($out[$i]) == $deletion) {
+                    $i++;
+                    continue;
+                }
+                $new[] = $out[$i] . PHP_EOL;
             }
-            $new[] = $out[$i];
-        }
 
-        $f = fopen($this->path, 'w+');
-        flock($f, LOCK_EX);
-        foreach($new as $line) {
-            fwrite($f, $line);
+            $f = fopen($this->getPath(), 'w+');
+            flock($f, LOCK_EX);
+            foreach ($new as $line) {
+                fwrite($f, $line);
+            }
+            flock($f, LOCK_UN);
+            fclose($f);
+
+        } catch (\Exception $e) {
+            $this->getLogger()->critical("Deletion error: $e");
+            exit;
         }
-        flock($f, LOCK_UN);
-        fclose($f);
 
     }
 

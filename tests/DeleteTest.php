@@ -9,7 +9,6 @@
 namespace Kaktus\Tests;
 
 use Kaktus\Crouton\Crouton;
-use Kaktus\Crouton\Crud\Delete;
 
 class Test extends \PHPUnit_Framework_TestCase
 {
@@ -28,11 +27,13 @@ class Test extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $crouton = new Crouton();
-        $crouton->write('TestForDelete', '1,2,3,4', "12:34", "18:21", "/home/ddymko/desktop/test.php", '/tmp/crouton');
+        $crouton = new Crouton('/tmp/crouton');
+        $crouton->write('TestForDelete1', '5', '5-12', '*', '*', '5,6,7', 'ruby', '/home/ruby/test', null);
+        $crouton->write('SpareDeleteTesting3', '5', '5-12', '*', '*', '5,6,7', 'ruby', '/home/ruby/test', null);
+        $crouton->write('SpareDeleteTesting4', '5', '5-12', '*', '*', '5,6,7', 'ruby', '/home/ruby/test', null);
 
-        $delete = new Delete('/tmp/crouton');
-        $delete->delete('TestForDelete');
+        $crouton->delete('TestForDelete1');
+
 
         $data = file('/tmp/crouton');
 
