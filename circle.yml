@@ -1,0 +1,3 @@
+machine:
+  php:
+    versions: 7.1
